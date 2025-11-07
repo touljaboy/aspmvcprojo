@@ -34,3 +34,30 @@ trzecią.
 ```
 dotnet watch run
 ```
+
+
+# Instalowanie paczek
+po kolej:
+```
+dotnet add package Microsoft.EntityFrameworkCore
+```
+```
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+```
+```
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+```
+```
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
+```
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+```
+
+## migracje
+```
+dotnet ef migrations add InitialCreateWindows
+```
+```
+dotnet ef database update
+```
