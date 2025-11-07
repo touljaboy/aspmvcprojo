@@ -79,3 +79,13 @@ Zainstaluj dotnet 8 ze stronki microsoftu. Potem odpal te komendy:
 ```
 dotnet tool install -g dotnet-aspnet-codegenerator 
 ```
+
+**Generowanie controllers i views**
+| Model | Kontroler | Polecenie do uruchomienia |
+| :--- | :--- | :--- |
+| **Uczen** | `UczniowieController` | `dotnet aspnet-codegenerator controller -name UczniowieController -m Uczen -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout` |
+| **Rodzic** | `RodziceController` | `dotnet aspnet-codegenerator controller -name RodziceController -m Rodzic -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout` |
+| **Nauczyciel** | `NauczycieleController` | `dotnet aspnet-codegenerator controller -name NauczycieleController -m Nauczyciel -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout` |
+| **Klasa** | `KlasyController` | `dotnet aspnet-codegenerator controller -name KlasyController -m Klasa -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout` |
+| **Przedmiot** | `PrzedmiotyController` | `dotnet aspnet-codegenerator controller -name PrzedmiotyController -m Przedmiot -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout` |
+| **Ocena** | `OcenyController` | `dotnet aspnet-codegenerator controller -name OcenyController -m Ocena -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout` |

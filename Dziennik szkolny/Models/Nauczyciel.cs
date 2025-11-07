@@ -1,4 +1,4 @@
-// Models/Nauczyciel.cs
+
 using System.ComponentModel.DataAnnotations;
 namespace Dziennik_szkolny.Models
 {
@@ -13,10 +13,9 @@ namespace Dziennik_szkolny.Models
         [Required]
         public string Nazwisko { get; set; }
         
-        // Właściwość nawigacyjna: Nauczyciel może być wychowawcą wielu Uczniów
+
         public ICollection<Uczen> Wychowankowie { get; set; } = new List<Uczen>();
-        
-        // Właściwość nawigacyjna: Nauczyciel prowadzi wiele Przedmiotów
+
         public ICollection<Przedmiot> ProwadzonePrzedmioty { get; set; } = new List<Przedmiot>();
     }
 }
