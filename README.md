@@ -54,10 +54,28 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 ```
 
+zamknij o tworz terminal po tych wszystkich komendach 
 ## migracje
+
+Zainstaluj SQL server express z instalki dostępnej [tutaj](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+i tam wybierz custom.
+i zaznacz "localdb"
+i to sie pobierze i zainstaluj.
+
 ```
-dotnet ef migrations add InitialCreateWindows
+dotnet tool update -g dotnet-aspnet-codegenerator
+```
+```
+dotnet tool install --global dotnet-ef
+```
+```
+dotnet ef migrations add InitialCreate
 ```
 ```
 dotnet ef database update
+```
+
+Zainstaluj dotnet 8 ze stronki microsoftu. Potem odpal te komendy:
+```
+dotnet tool install -g dotnet-aspnet-codegenerator 
 ```

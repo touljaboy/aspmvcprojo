@@ -26,13 +26,20 @@ namespace Dziennik_szkolny.Data
         public DbSet<Przedmiot> Przedmioty { get; set; }
         public DbSet<Ocena> Oceny { get; set; }
 
+        // Data/ApplicationDbContext.cs
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Konfiguracja relacji Wiele-do-Wielu między Klasa a Przedmiot
+            // WAŻNA NOWA LINIA: Wyłącza domyślne kaskadowe usuwanie
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            // Twoja istniejąca konfiguracja Wiele-do-Wielu:
             modelBuilder.Entity<Klasa>()
                 .HasMany(k => k.Przedmioty)
                 .WithMany(p => p.Klasy)
-                .UsingEntity(j => j.ToTable("KlasaPrzedmiot"));
+                .UsingEntity(j => j.ToTable("KlasaPrzedmiot")); 
         }
     }
 }

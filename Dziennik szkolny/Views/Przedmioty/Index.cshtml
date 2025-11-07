@@ -1,0 +1,41 @@
+@model IEnumerable<Dziennik_szkolny.Models.Przedmiot>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NazwaPrzedmiotu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nauczyciel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NazwaPrzedmiotu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nauczyciel.Imie)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id_przedmiotu">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id_przedmiotu">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id_przedmiotu">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

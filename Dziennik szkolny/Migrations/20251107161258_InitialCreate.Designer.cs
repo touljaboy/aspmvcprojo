@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dziennik_szkolny.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251107133143_InitialCreateWindows")]
-    partial class InitialCreateWindows
+    [Migration("20251107161258_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -196,19 +196,19 @@ namespace Dziennik_szkolny.Migrations
                     b.HasOne("Dziennik_szkolny.Models.Uczen", "Uczen")
                         .WithMany("Oceny")
                         .HasForeignKey("Id_Ucznia")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dziennik_szkolny.Models.Nauczyciel", "Nauczyciel")
                         .WithMany()
                         .HasForeignKey("Id_nauczyciela")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dziennik_szkolny.Models.Przedmiot", "Przedmiot")
                         .WithMany("Oceny")
                         .HasForeignKey("Id_przedmiotu")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Nauczyciel");
@@ -223,7 +223,7 @@ namespace Dziennik_szkolny.Migrations
                     b.HasOne("Dziennik_szkolny.Models.Nauczyciel", "Nauczyciel")
                         .WithMany("ProwadzonePrzedmioty")
                         .HasForeignKey("Id_nauczyciela")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Nauczyciel");
@@ -234,19 +234,19 @@ namespace Dziennik_szkolny.Migrations
                     b.HasOne("Dziennik_szkolny.Models.Klasa", "Klasa")
                         .WithMany("Uczniowie")
                         .HasForeignKey("Id_klasy")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dziennik_szkolny.Models.Rodzic", "Rodzic")
                         .WithMany("Uczniowie")
                         .HasForeignKey("Id_rodzica")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dziennik_szkolny.Models.Nauczyciel", "Wychowawca")
                         .WithMany("Wychowankowie")
                         .HasForeignKey("Id_wychowawcy")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Klasa");
@@ -261,13 +261,13 @@ namespace Dziennik_szkolny.Migrations
                     b.HasOne("Dziennik_szkolny.Models.Klasa", null)
                         .WithMany()
                         .HasForeignKey("KlasyId_klasy")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dziennik_szkolny.Models.Przedmiot", null)
                         .WithMany()
                         .HasForeignKey("PrzedmiotyId_przedmiotu")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

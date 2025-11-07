@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dziennik_szkolny.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateWindows : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,7 +69,7 @@ namespace Dziennik_szkolny.Migrations
                         column: x => x.Id_nauczyciela,
                         principalTable: "Nauczyciele",
                         principalColumn: "Id_wychowawcy",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,19 +92,19 @@ namespace Dziennik_szkolny.Migrations
                         column: x => x.Id_klasy,
                         principalTable: "Klasy",
                         principalColumn: "Id_klasy",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Uczniowie_Nauczyciele_Id_wychowawcy",
                         column: x => x.Id_wychowawcy,
                         principalTable: "Nauczyciele",
                         principalColumn: "Id_wychowawcy",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Uczniowie_Rodzice_Id_rodzica",
                         column: x => x.Id_rodzica,
                         principalTable: "Rodzice",
                         principalColumn: "Id_rodzica",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,13 +122,13 @@ namespace Dziennik_szkolny.Migrations
                         column: x => x.KlasyId_klasy,
                         principalTable: "Klasy",
                         principalColumn: "Id_klasy",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_KlasaPrzedmiot_Przedmioty_PrzedmiotyId_przedmiotu",
                         column: x => x.PrzedmiotyId_przedmiotu,
                         principalTable: "Przedmioty",
                         principalColumn: "Id_przedmiotu",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,19 +151,19 @@ namespace Dziennik_szkolny.Migrations
                         column: x => x.Id_nauczyciela,
                         principalTable: "Nauczyciele",
                         principalColumn: "Id_wychowawcy",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Oceny_Przedmioty_Id_przedmiotu",
                         column: x => x.Id_przedmiotu,
                         principalTable: "Przedmioty",
                         principalColumn: "Id_przedmiotu",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Oceny_Uczniowie_Id_Ucznia",
                         column: x => x.Id_Ucznia,
                         principalTable: "Uczniowie",
                         principalColumn: "Id_Ucznia",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
