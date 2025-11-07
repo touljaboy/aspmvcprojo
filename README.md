@@ -28,3 +28,9 @@ wystawiana automatycznie po zakończeniu testu – 6 pkt,
 trzecią.
 • dodatkowe wersje językowe interfejsu użytkownika – 2 pkt. za pierwszy dodatkowy język i
 1 pkt. za drugi.
+
+
+# komenda do uruchamiania
+```
+dotnet watch run
+```
