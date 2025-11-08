@@ -37,6 +37,13 @@ dotnet watch run
 
 
 # Instalowanie paczek
+
+zamiast tych komend, powinno zadzialac zwykle:
+```
+dotnet restore
+```
+
+
 po kolej:
 ```
 dotnet add package Microsoft.EntityFrameworkCore
