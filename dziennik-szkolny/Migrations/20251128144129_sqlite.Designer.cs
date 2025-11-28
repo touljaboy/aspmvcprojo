@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dziennik_szkolny.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251128115602_sqlite")]
+    [Migration("20251128144129_sqlite")]
     partial class sqlite
     {
         /// <inheritdoc />

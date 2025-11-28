@@ -15,7 +15,7 @@ namespace Dziennik_szkolny.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Server=(localdb)\\mssqllocaldb;Database=SzkolaDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlite("Data Source=../db_data/app.db");
             }
         }
 
@@ -26,16 +26,14 @@ namespace Dziennik_szkolny.Data
         public DbSet<Przedmiot> Przedmioty { get; set; }
         public DbSet<Ocena> Oceny { get; set; }
 
-        // Data/ApplicationDbContext.cs
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // WAŻNA NOWA LINIA: Wyłącza domyślne kaskadowe usuwanie
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            // Twoja istniejąca konfiguracja Wiele-do-Wielu:
             modelBuilder.Entity<Klasa>()
                 .HasMany(k => k.Przedmioty)
                 .WithMany(p => p.Klasy)
