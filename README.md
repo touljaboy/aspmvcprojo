@@ -3,17 +3,16 @@
 Tematem projektu jest elektroniczny dziennik szkolny. Aplikacja umożliwia zarządzanie
 ocenami i przedmiotami, ich przeglądanie zarówno przez uczniów jak i przez rodziców.
 Funkcjonalności:
-• modyfikacja listy uczniów należących do poszczególnych klas – 2 pkt.,
-• tworzenie listy przedmiotów oraz przyporządkowywanie ich do różnych klas – 2 pkt,
-• dodawanie nauczycieli do przedmiotów oraz wychowawców dla klas – 2 pkt,
-• możliwość edycji danych osobowych uczniów, nauczycieli oraz rodziców w ramach ich
+- modyfikacja listy uczniów należących do poszczególnych klas – 2 pkt.,
+-  tworzenie listy przedmiotów oraz przyporządkowywanie ich do różnych klas – 2 pkt,
+-   dodawanie nauczycieli do przedmiotów oraz wychowawców dla klas – 2 pkt,
+-    możliwość edycji danych osobowych uczniów, nauczycieli oraz rodziców w ramach ich
 profili użytkowników – 4 pkt,
-• konta nauczycieli, uczniów oraz rodziców – 2 pkt,
-• przeglądanie zestawień ocen z zadanego okresu dla wybranych uczniów oraz przedmiotów
-– 2 pkt,
-• lista ogłoszeń na głównej stronie serwisu – 2 pkt,
-• umieszczanie treści kształcenia przyporządkowanych do przedmiotów – 2 pkt,
-• dodatkowe wersje językowe interfejsu użytkownika – 2 pkt. za pierwszy dodatkowy język i
+- konta nauczycieli, uczniów oraz rodziców – 2 pkt,
+- przeglądanie zestawień ocen z zadanego okresu dla wybranych uczniów oraz przedmiotów - 2 pkt,
+- lista ogłoszeń na głównej stronie serwisu – 2 pkt,
+- umieszczanie treści kształcenia przyporządkowanych do przedmiotów – 2 pkt,
+- dodatkowe wersje językowe interfejsu użytkownika – 2 pkt. za pierwszy dodatkowy język i
 1 pkt. za drugi.
 
 
