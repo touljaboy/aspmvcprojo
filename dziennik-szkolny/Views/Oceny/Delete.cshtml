@@ -18,33 +18,33 @@
             @Html.DisplayFor(model => model.Wartosc)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataWpisu)
+            @Html.DisplayNameFor(model => model.Opis)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataWpisu)
+            @Html.DisplayFor(model => model.Opis)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Data)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Data)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Uczen)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Uczen.Id_Ucznia)
+            @Html.DisplayFor(model => model.Uczen.Id)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Przedmiot)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Przedmiot.NazwaPrzedmiotu)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nauczyciel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nauczyciel.Imie)
+            @Html.DisplayFor(model => model.Przedmiot.Id)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id_oceny" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

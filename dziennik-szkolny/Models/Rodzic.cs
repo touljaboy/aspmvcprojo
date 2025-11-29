@@ -1,22 +1,15 @@
-
-
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-
-
 namespace Dziennik_szkolny.Models
 {
     public class Rodzic
     {
-        [Key]
-        public int Id_rodzica { get; set; } 
-        
-        [Required]
+        public int Id { get; set; }
         public string Imie { get; set; }
-        
-        [Required]
         public string Nazwisko { get; set; }
-        
-        public ICollection<Uczen> Uczniowie { get; set; } = new List<Uczen>();
-    }  
+
+        public int UczenId { get; set; }
+        public Uczen Uczen { get; set; }
+
+        public int KontoId { get; set; }
+        public Konto Konto { get; set; }
+    }
 }

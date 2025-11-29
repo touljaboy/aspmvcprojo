@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace Dziennik_szkolny.Controllers
+namespace dziennik_szkolny.Controllers
 {
     public class OcenyController : Controller
     {
@@ -22,7 +22,7 @@ namespace Dziennik_szkolny.Controllers
         // GET: Oceny
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Oceny.Include(o => o.Nauczyciel).Include(o => o.Przedmiot).Include(o => o.Uczen);
+            var applicationDbContext = _context.Oceny.Include(o => o.Przedmiot).Include(o => o.Uczen);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,10 +35,9 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var ocena = await _context.Oceny
-                .Include(o => o.Nauczyciel)
                 .Include(o => o.Przedmiot)
                 .Include(o => o.Uczen)
-                .FirstOrDefaultAsync(m => m.Id_oceny == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (ocena == null)
             {
                 return NotFound();
@@ -50,9 +49,8 @@ namespace Dziennik_szkolny.Controllers
         // GET: Oceny/Create
         public IActionResult Create()
         {
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie");
-            ViewData["Id_przedmiotu"] = new SelectList(_context.Przedmioty, "Id_przedmiotu", "NazwaPrzedmiotu");
-            ViewData["Id_Ucznia"] = new SelectList(_context.Uczniowie, "Id_Ucznia", "Id_Ucznia");
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id");
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id");
             return View();
         }
 
@@ -61,7 +59,7 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_oceny,Wartosc,DataWpisu,Id_Ucznia,Id_przedmiotu,Id_nauczyciela")] Ocena ocena)
+        public async Task<IActionResult> Create([Bind("Id,Wartosc,Opis,Data,UczenId,PrzedmiotId")] Ocena ocena)
         {
             if (ModelState.IsValid)
             {
@@ -69,9 +67,8 @@ namespace Dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie", ocena.Id_nauczyciela);
-            ViewData["Id_przedmiotu"] = new SelectList(_context.Przedmioty, "Id_przedmiotu", "NazwaPrzedmiotu", ocena.Id_przedmiotu);
-            ViewData["Id_Ucznia"] = new SelectList(_context.Uczniowie, "Id_Ucznia", "Id_Ucznia", ocena.Id_Ucznia);
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
             return View(ocena);
         }
 
@@ -88,9 +85,8 @@ namespace Dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie", ocena.Id_nauczyciela);
-            ViewData["Id_przedmiotu"] = new SelectList(_context.Przedmioty, "Id_przedmiotu", "NazwaPrzedmiotu", ocena.Id_przedmiotu);
-            ViewData["Id_Ucznia"] = new SelectList(_context.Uczniowie, "Id_Ucznia", "Id_Ucznia", ocena.Id_Ucznia);
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
             return View(ocena);
         }
 
@@ -99,9 +95,9 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_oceny,Wartosc,DataWpisu,Id_Ucznia,Id_przedmiotu,Id_nauczyciela")] Ocena ocena)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Wartosc,Opis,Data,UczenId,PrzedmiotId")] Ocena ocena)
         {
-            if (id != ocena.Id_oceny)
+            if (id != ocena.Id)
             {
                 return NotFound();
             }
@@ -115,7 +111,7 @@ namespace Dziennik_szkolny.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OcenaExists(ocena.Id_oceny))
+                    if (!OcenaExists(ocena.Id))
                     {
                         return NotFound();
                     }
@@ -126,9 +122,8 @@ namespace Dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie", ocena.Id_nauczyciela);
-            ViewData["Id_przedmiotu"] = new SelectList(_context.Przedmioty, "Id_przedmiotu", "NazwaPrzedmiotu", ocena.Id_przedmiotu);
-            ViewData["Id_Ucznia"] = new SelectList(_context.Uczniowie, "Id_Ucznia", "Id_Ucznia", ocena.Id_Ucznia);
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
             return View(ocena);
         }
 
@@ -141,10 +136,9 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var ocena = await _context.Oceny
-                .Include(o => o.Nauczyciel)
                 .Include(o => o.Przedmiot)
                 .Include(o => o.Uczen)
-                .FirstOrDefaultAsync(m => m.Id_oceny == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (ocena == null)
             {
                 return NotFound();
@@ -170,7 +164,7 @@ namespace Dziennik_szkolny.Controllers
 
         private bool OcenaExists(int id)
         {
-            return _context.Oceny.Any(e => e.Id_oceny == id);
+            return _context.Oceny.Any(e => e.Id == id);
         }
     }
 }

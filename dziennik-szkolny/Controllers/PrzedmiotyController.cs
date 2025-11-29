@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace Dziennik_szkolny.Controllers
+namespace dziennik_szkolny.Controllers
 {
     public class PrzedmiotyController : Controller
     {
@@ -22,8 +22,7 @@ namespace Dziennik_szkolny.Controllers
         // GET: Przedmioty
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Przedmioty.Include(p => p.Nauczyciel);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Przedmioty.ToListAsync());
         }
 
         // GET: Przedmioty/Details/5
@@ -35,8 +34,7 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var przedmiot = await _context.Przedmioty
-                .Include(p => p.Nauczyciel)
-                .FirstOrDefaultAsync(m => m.Id_przedmiotu == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (przedmiot == null)
             {
                 return NotFound();
@@ -48,7 +46,6 @@ namespace Dziennik_szkolny.Controllers
         // GET: Przedmioty/Create
         public IActionResult Create()
         {
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_przedmiotu,NazwaPrzedmiotu,Id_nauczyciela")] Przedmiot przedmiot)
+        public async Task<IActionResult> Create([Bind("Id,Nazwa")] Przedmiot przedmiot)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +62,6 @@ namespace Dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie", przedmiot.Id_nauczyciela);
             return View(przedmiot);
         }
 
@@ -82,7 +78,6 @@ namespace Dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie", przedmiot.Id_nauczyciela);
             return View(przedmiot);
         }
 
@@ -91,9 +86,9 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_przedmiotu,NazwaPrzedmiotu,Id_nauczyciela")] Przedmiot przedmiot)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nazwa")] Przedmiot przedmiot)
         {
-            if (id != przedmiot.Id_przedmiotu)
+            if (id != przedmiot.Id)
             {
                 return NotFound();
             }
@@ -107,7 +102,7 @@ namespace Dziennik_szkolny.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PrzedmiotExists(przedmiot.Id_przedmiotu))
+                    if (!PrzedmiotExists(przedmiot.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +113,6 @@ namespace Dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id_nauczyciela"] = new SelectList(_context.Nauczyciele, "Id_wychowawcy", "Imie", przedmiot.Id_nauczyciela);
             return View(przedmiot);
         }
 
@@ -131,8 +125,7 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var przedmiot = await _context.Przedmioty
-                .Include(p => p.Nauczyciel)
-                .FirstOrDefaultAsync(m => m.Id_przedmiotu == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (przedmiot == null)
             {
                 return NotFound();
@@ -158,7 +151,7 @@ namespace Dziennik_szkolny.Controllers
 
         private bool PrzedmiotExists(int id)
         {
-            return _context.Przedmioty.Any(e => e.Id_przedmiotu == id);
+            return _context.Przedmioty.Any(e => e.Id == id);
         }
     }
 }

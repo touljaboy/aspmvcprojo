@@ -5,17 +5,8 @@ namespace Dziennik_szkolny.Models
 {
     public class Przedmiot
     {
-        [Key]
-        public int Id_przedmiotu { get; set; } 
-        
-        [Required]
-        public string NazwaPrzedmiotu { get; set; }
-
-        public int Id_nauczyciela { get; set; }
-        [ForeignKey("Id_nauczyciela")]
-        public Nauczyciel Nauczyciel { get; set; } 
-
-        public ICollection<Ocena> Oceny { get; set; } = new List<Ocena>();
+        public int Id { get; set; }
+        public string Nazwa { get; set; }
 
         public ICollection<Klasa> Klasy { get; set; } = new List<Klasa>();
     }

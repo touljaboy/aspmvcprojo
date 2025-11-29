@@ -18,21 +18,22 @@
                 <span asp-validation-for="Wartosc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataWpisu" class="control-label"></label>
-                <input asp-for="DataWpisu" class="form-control" />
-                <span asp-validation-for="DataWpisu" class="text-danger"></span>
+                <label asp-for="Opis" class="control-label"></label>
+                <input asp-for="Opis" class="form-control" />
+                <span asp-validation-for="Opis" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Id_Ucznia" class="control-label"></label>
-                <select asp-for="Id_Ucznia" class ="form-control" asp-items="ViewBag.Id_Ucznia"></select>
+                <label asp-for="Data" class="control-label"></label>
+                <input asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Id_przedmiotu" class="control-label"></label>
-                <select asp-for="Id_przedmiotu" class ="form-control" asp-items="ViewBag.Id_przedmiotu"></select>
+                <label asp-for="UczenId" class="control-label"></label>
+                <select asp-for="UczenId" class ="form-control" asp-items="ViewBag.UczenId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Id_nauczyciela" class="control-label"></label>
-                <select asp-for="Id_nauczyciela" class ="form-control" asp-items="ViewBag.Id_nauczyciela"></select>
+                <label asp-for="PrzedmiotId" class="control-label"></label>
+                <select asp-for="PrzedmiotId" class ="form-control" asp-items="ViewBag.PrzedmiotId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -45,3 +46,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

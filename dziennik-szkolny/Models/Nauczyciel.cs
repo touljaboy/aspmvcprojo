@@ -1,21 +1,19 @@
+using System.ComponentModel.DataAnnotations.Schema;
 
-using System.ComponentModel.DataAnnotations;
 namespace Dziennik_szkolny.Models
 {
     public class Nauczyciel
     {
-        [Key]
-        public int Id_wychowawcy { get; set; } 
-        
-        [Required]
+        public int Id { get; set; }
         public string Imie { get; set; }
-        
-        [Required]
         public string Nazwisko { get; set; }
-        
+        public bool CzyWychowawca { get; set; }
 
-        public ICollection<Uczen> Wychowankowie { get; set; } = new List<Uczen>();
+        public int KontoId { get; set; }
+        public Konto Konto { get; set; }
 
-        public ICollection<Przedmiot> ProwadzonePrzedmioty { get; set; } = new List<Przedmiot>();
+        public int? PrzelozonyId { get; set; }
+        [ForeignKey("PrzelozonyId")]
+        public Nauczyciel Przelozony { get; set; }
     }
 }

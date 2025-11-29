@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace Dziennik_szkolny.Controllers
+namespace dziennik_szkolny.Controllers
 {
     public class KlasyController : Controller
     {
@@ -22,7 +22,8 @@ namespace Dziennik_szkolny.Controllers
         // GET: Klasy
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Klasy.ToListAsync());
+            var applicationDbContext = _context.Klasy.Include(k => k.Wychowawca);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Klasy/Details/5
@@ -34,7 +35,8 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var klasa = await _context.Klasy
-                .FirstOrDefaultAsync(m => m.Id_klasy == id);
+                .Include(k => k.Wychowawca)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (klasa == null)
             {
                 return NotFound();
@@ -46,6 +48,7 @@ namespace Dziennik_szkolny.Controllers
         // GET: Klasy/Create
         public IActionResult Create()
         {
+            ViewData["WychowawcaId"] = new SelectList(_context.Nauczyciele, "Id", "Id");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_klasy,NazwaKlasy")] Klasa klasa)
+        public async Task<IActionResult> Create([Bind("Id,NazwaKlasy,WychowawcaId")] Klasa klasa)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace Dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["WychowawcaId"] = new SelectList(_context.Nauczyciele, "Id", "Id", klasa.WychowawcaId);
             return View(klasa);
         }
 
@@ -78,6 +82,7 @@ namespace Dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
+            ViewData["WychowawcaId"] = new SelectList(_context.Nauczyciele, "Id", "Id", klasa.WychowawcaId);
             return View(klasa);
         }
 
@@ -86,9 +91,9 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_klasy,NazwaKlasy")] Klasa klasa)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NazwaKlasy,WychowawcaId")] Klasa klasa)
         {
-            if (id != klasa.Id_klasy)
+            if (id != klasa.Id)
             {
                 return NotFound();
             }
@@ -102,7 +107,7 @@ namespace Dziennik_szkolny.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!KlasaExists(klasa.Id_klasy))
+                    if (!KlasaExists(klasa.Id))
                     {
                         return NotFound();
                     }
@@ -113,6 +118,7 @@ namespace Dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["WychowawcaId"] = new SelectList(_context.Nauczyciele, "Id", "Id", klasa.WychowawcaId);
             return View(klasa);
         }
 
@@ -125,7 +131,8 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var klasa = await _context.Klasy
-                .FirstOrDefaultAsync(m => m.Id_klasy == id);
+                .Include(k => k.Wychowawca)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (klasa == null)
             {
                 return NotFound();
@@ -151,7 +158,7 @@ namespace Dziennik_szkolny.Controllers
 
         private bool KlasaExists(int id)
         {
-            return _context.Klasy.Any(e => e.Id_klasy == id);
+            return _context.Klasy.Any(e => e.Id == id);
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace Dziennik_szkolny.Controllers
+namespace dziennik_szkolny.Controllers
 {
     public class RodziceController : Controller
     {
@@ -22,7 +22,8 @@ namespace Dziennik_szkolny.Controllers
         // GET: Rodzice
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rodzice.ToListAsync());
+            var applicationDbContext = _context.Rodzice.Include(r => r.Konto).Include(r => r.Uczen);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Rodzice/Details/5
@@ -34,7 +35,9 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var rodzic = await _context.Rodzice
-                .FirstOrDefaultAsync(m => m.Id_rodzica == id);
+                .Include(r => r.Konto)
+                .Include(r => r.Uczen)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (rodzic == null)
             {
                 return NotFound();
@@ -46,6 +49,8 @@ namespace Dziennik_szkolny.Controllers
         // GET: Rodzice/Create
         public IActionResult Create()
         {
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id");
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_rodzica,Imie,Nazwisko")] Rodzic rodzic)
+        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,UczenId,KontoId")] Rodzic rodzic)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +67,8 @@ namespace Dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", rodzic.KontoId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", rodzic.UczenId);
             return View(rodzic);
         }
 
@@ -78,6 +85,8 @@ namespace Dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", rodzic.KontoId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", rodzic.UczenId);
             return View(rodzic);
         }
 
@@ -86,9 +95,9 @@ namespace Dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_rodzica,Imie,Nazwisko")] Rodzic rodzic)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,UczenId,KontoId")] Rodzic rodzic)
         {
-            if (id != rodzic.Id_rodzica)
+            if (id != rodzic.Id)
             {
                 return NotFound();
             }
@@ -102,7 +111,7 @@ namespace Dziennik_szkolny.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RodzicExists(rodzic.Id_rodzica))
+                    if (!RodzicExists(rodzic.Id))
                     {
                         return NotFound();
                     }
@@ -113,6 +122,8 @@ namespace Dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", rodzic.KontoId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", rodzic.UczenId);
             return View(rodzic);
         }
 
@@ -125,7 +136,9 @@ namespace Dziennik_szkolny.Controllers
             }
 
             var rodzic = await _context.Rodzice
-                .FirstOrDefaultAsync(m => m.Id_rodzica == id);
+                .Include(r => r.Konto)
+                .Include(r => r.Uczen)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (rodzic == null)
             {
                 return NotFound();
@@ -151,7 +164,7 @@ namespace Dziennik_szkolny.Controllers
 
         private bool RodzicExists(int id)
         {
-            return _context.Rodzice.Any(e => e.Id_rodzica == id);
+            return _context.Rodzice.Any(e => e.Id == id);
         }
     }
 }

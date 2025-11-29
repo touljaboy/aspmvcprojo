@@ -18,6 +18,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nazwisko)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CzyWychowawca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Konto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Przelozony)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -31,9 +40,18 @@
                 @Html.DisplayFor(modelItem => item.Nazwisko)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id_wychowawcy">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id_wychowawcy">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id_wychowawcy">Delete</a>
+                @Html.DisplayFor(modelItem => item.CzyWychowawca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Konto.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Przelozony.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

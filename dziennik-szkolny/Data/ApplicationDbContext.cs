@@ -39,6 +39,8 @@ namespace Dziennik_szkolny.Data
                 .WithMany(p => p.Klasy)
                 .UsingEntity(j => j.ToTable("KlasaPrzedmiot")); 
         }
+        public DbSet<Dziennik_szkolny.Models.Konto> Konto { get; set; } = default!;
+        public DbSet<Dziennik_szkolny.Models.Ogloszenie> Ogloszenie { get; set; } = default!;
     }
 }
 

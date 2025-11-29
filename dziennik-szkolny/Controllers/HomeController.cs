@@ -17,6 +17,8 @@ public class HomeController : Controller
     {
         var resourceLinks = new List<string>
         {
+            "Konta",
+            "Ogloszenia",
             "Uczniowie", 
             "Rodzice",
             "Nauczyciele",
