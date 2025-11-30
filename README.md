@@ -16,7 +16,12 @@ profili użytkowników – 4 pkt,
 1 pkt. za drugi.
 
 
-# komenda do uruchamiania
+# Docker run - komenda
+``` docker build -t dziennik-szkolny . ```
+``` docker compose up ```
+
+
+# Localrun - komenda do uruchamiania
 ```
 dotnet watch run
 ```
@@ -50,6 +55,8 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 zamknij o tworz terminal po tych wszystkich komendach 
 ## migracje
 
+
+### LocalDB
 Zainstaluj SQL server express z instalki dostępnej [tutaj](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 i tam wybierz custom.
 i zaznacz "localdb"
@@ -64,9 +71,19 @@ dotnet tool install --global dotnet-ef
 ```
 dotnet ef migrations add InitialCreate
 ```
+
+### SQLite
+``` dotnet remove package Microsoft.EntityFrameworkCore.SqlServer ```
+``` dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 9.0.0 ```
+``` dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.0 ```
+``` dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0 ```
+``` dotnet ef migrations add sqlite ```
+
+
 ```
 dotnet ef database update
 ```
+
 
 Zainstaluj dotnet 8 ze stronki microsoftu. Potem odpal te komendy:
 ```

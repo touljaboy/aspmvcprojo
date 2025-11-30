@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Główna strona Dziennika Szkolnego";
+    var links = (List<string>)ViewBag.ResourceLinks;
+}
+
+<h1>Dziennik szkolny</h1>
+<p>endpointy:</p>
+
+<div class="list-group">
+    @foreach (var controllerName in links)
+    {
+        // link do kazdego controllera
+        <a asp-controller="@controllerName" asp-action="Index" class="list-group-item list-group-item-action">
+            @controllerName 
+        </a>
+    }
+    
+</div>
+
+<hr />
