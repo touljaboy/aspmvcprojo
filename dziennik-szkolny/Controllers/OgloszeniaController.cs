@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace dziennik_szkolny.Controllers
+namespace Dziennik_szkolny.Controllers
 {
     public class OgloszeniaController : Controller
     {
@@ -22,23 +22,19 @@ namespace dziennik_szkolny.Controllers
         // GET: Ogloszenia
         public async Task<IActionResult> Index()
         {
+            // Ogloszenia nie mają relacji, więc nie potrzebujemy .Include()
             return View(await _context.Ogloszenie.ToListAsync());
         }
 
         // GET: Ogloszenia/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var ogloszenie = await _context.Ogloszenie
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ogloszenie == null)
-            {
-                return NotFound();
-            }
+            
+            if (ogloszenie == null) return NotFound();
 
             return View(ogloszenie);
         }
@@ -46,16 +42,19 @@ namespace dziennik_szkolny.Controllers
         // GET: Ogloszenia/Create
         public IActionResult Create()
         {
+            // Brak list rozwijanych (SelectList), bo ogłoszenie nie zależy od nikogo
             return View();
         }
 
         // POST: Ogloszenia/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tytul,Tresc,Data")] Ogloszenie ogloszenie)
+        // Usunąłem "Data" z Bind, bo ustawiamy ją automatycznie poniżej
+        public async Task<IActionResult> Create([Bind("Id,Tytul,Tresc")] Ogloszenie ogloszenie)
         {
+            // AUTOMATYZACJA: Ustawiamy datę na "teraz"
+            ogloszenie.Data = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 _context.Add(ogloszenie);
@@ -68,30 +67,20 @@ namespace dziennik_szkolny.Controllers
         // GET: Ogloszenia/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var ogloszenie = await _context.Ogloszenie.FindAsync(id);
-            if (ogloszenie == null)
-            {
-                return NotFound();
-            }
+            if (ogloszenie == null) return NotFound();
+            
             return View(ogloszenie);
         }
 
         // POST: Ogloszenia/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Tytul,Tresc,Data")] Ogloszenie ogloszenie)
         {
-            if (id != ogloszenie.Id)
-            {
-                return NotFound();
-            }
+            if (id != ogloszenie.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -102,14 +91,8 @@ namespace dziennik_szkolny.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OgloszenieExists(ogloszenie.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!OgloszenieExists(ogloszenie.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -119,17 +102,12 @@ namespace dziennik_szkolny.Controllers
         // GET: Ogloszenia/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var ogloszenie = await _context.Ogloszenie
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ogloszenie == null)
-            {
-                return NotFound();
-            }
+            
+            if (ogloszenie == null) return NotFound();
 
             return View(ogloszenie);
         }

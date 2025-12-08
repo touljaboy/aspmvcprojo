@@ -14,6 +14,6 @@ namespace Dziennik_szkolny.Models
 
         public int? PrzelozonyId { get; set; }
         [ForeignKey("PrzelozonyId")]
-        public Nauczyciel Przelozony { get; set; }
+        public Nauczyciel? Przelozony { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace dziennik_szkolny.Controllers
+namespace Dziennik_szkolny.Controllers // Poprawiłem wielkość liter w namespace
 {
     public class NauczycieleController : Controller
     {
@@ -22,7 +22,10 @@ namespace dziennik_szkolny.Controllers
         // GET: Nauczyciele
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Nauczyciele.Include(n => n.Konto).Include(n => n.Przelozony);
+            // Używam _context.Konta (zgodnie z konwencją liczby mnogiej w DbContext)
+            var applicationDbContext = _context.Nauczyciele
+                .Include(n => n.Konto)
+                .Include(n => n.Przelozony);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -49,26 +52,33 @@ namespace dziennik_szkolny.Controllers
         // GET: Nauczyciele/Create
         public IActionResult Create()
         {
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id");
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id");
+            // POPRAWKA: Wyświetlamy "Nazwa" zamiast "Id", żeby wiedzieć kogo wybieramy
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa");
+            
+            // POPRAWKA: Wyświetlamy "Nazwisko" przełożonego
+            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Nazwisko");
             return View();
         }
 
         // POST: Nauczyciele/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,CzyWychowawca,KontoId,PrzelozonyId")] Nauczyciel nauczyciel)
         {
+            // WAŻNE: Usuwamy obiekty nawigacyjne z walidacji, bo formularz przesyła tylko ID
+            ModelState.Remove("Konto");
+            ModelState.Remove("Przelozony");
+
             if (ModelState.IsValid)
             {
                 _context.Add(nauczyciel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", nauczyciel.KontoId);
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id", nauczyciel.PrzelozonyId);
+            
+            // Jeśli walidacja nie przejdzie, odtwarzamy listy z wybranymi wartościami
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", nauczyciel.KontoId);
+            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Nazwisko", nauczyciel.PrzelozonyId);
             return View(nauczyciel);
         }
 
@@ -85,14 +95,14 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", nauczyciel.KontoId);
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id", nauczyciel.PrzelozonyId);
+            
+            // POPRAWKA: Wyświetlanie nazw w edycji
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", nauczyciel.KontoId);
+            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Nazwisko", nauczyciel.PrzelozonyId);
             return View(nauczyciel);
         }
 
         // POST: Nauczyciele/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,CzyWychowawca,KontoId,PrzelozonyId")] Nauczyciel nauczyciel)
@@ -101,6 +111,10 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
+
+            // WAŻNE: Znów usuwamy walidację obiektów
+            ModelState.Remove("Konto");
+            ModelState.Remove("Przelozony");
 
             if (ModelState.IsValid)
             {
@@ -122,8 +136,8 @@ namespace dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", nauczyciel.KontoId);
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id", nauczyciel.PrzelozonyId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", nauczyciel.KontoId);
+            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Nazwisko", nauczyciel.PrzelozonyId);
             return View(nauczyciel);
         }
 

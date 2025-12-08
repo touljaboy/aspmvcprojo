@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Dziennik_szkolny.Data;
 using Dziennik_szkolny.Models;
 
-namespace dziennik_szkolny.Controllers
+namespace Dziennik_szkolny.Controllers
 {
     public class OcenyController : Controller
     {
@@ -22,26 +22,23 @@ namespace dziennik_szkolny.Controllers
         // GET: Oceny
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Oceny.Include(o => o.Przedmiot).Include(o => o.Uczen);
+            var applicationDbContext = _context.Oceny
+                .Include(o => o.Przedmiot)
+                .Include(o => o.Uczen);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Oceny/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var ocena = await _context.Oceny
                 .Include(o => o.Przedmiot)
                 .Include(o => o.Uczen)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ocena == null)
-            {
-                return NotFound();
-            }
+            
+            if (ocena == null) return NotFound();
 
             return View(ocena);
         }
@@ -49,58 +46,60 @@ namespace dziennik_szkolny.Controllers
         // GET: Oceny/Create
         public IActionResult Create()
         {
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id");
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id");
+            // POPRAWKA: Wyświetlamy "Nazwa" przedmiotu zamiast "Id"
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa");
+            // POPRAWKA: Wyświetlamy "Nazwisko" ucznia zamiast "Id"
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Nazwisko");
             return View();
         }
 
         // POST: Oceny/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Wartosc,Opis,Data,UczenId,PrzedmiotId")] Ocena ocena)
         {
+            // --- FIX WALIDACJI ---
+            // Ignorujemy brak pełnych obiektów, bo mamy tylko ID
+            ModelState.Remove("Uczen");
+            ModelState.Remove("Przedmiot");
+
             if (ModelState.IsValid)
             {
                 _context.Add(ocena);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
+            
+            // Odnawianie listy w razie błędu (z czytelnymi nazwami)
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa", ocena.PrzedmiotId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Nazwisko", ocena.UczenId);
             return View(ocena);
         }
 
         // GET: Oceny/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var ocena = await _context.Oceny.FindAsync(id);
-            if (ocena == null)
-            {
-                return NotFound();
-            }
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
+            if (ocena == null) return NotFound();
+            
+            // POPRAWKA: Listy przy edycji
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa", ocena.PrzedmiotId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Nazwisko", ocena.UczenId);
             return View(ocena);
         }
 
         // POST: Oceny/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Wartosc,Opis,Data,UczenId,PrzedmiotId")] Ocena ocena)
         {
-            if (id != ocena.Id)
-            {
-                return NotFound();
-            }
+            if (id != ocena.Id) return NotFound();
+
+            // --- FIX WALIDACJI ---
+            ModelState.Remove("Uczen");
+            ModelState.Remove("Przedmiot");
 
             if (ModelState.IsValid)
             {
@@ -111,38 +110,27 @@ namespace dziennik_szkolny.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OcenaExists(ocena.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!OcenaExists(ocena.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa", ocena.PrzedmiotId);
+            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Nazwisko", ocena.UczenId);
             return View(ocena);
         }
 
         // GET: Oceny/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var ocena = await _context.Oceny
                 .Include(o => o.Przedmiot)
                 .Include(o => o.Uczen)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (ocena == null)
-            {
-                return NotFound();
-            }
+            
+            if (ocena == null) return NotFound();
 
             return View(ocena);
         }
