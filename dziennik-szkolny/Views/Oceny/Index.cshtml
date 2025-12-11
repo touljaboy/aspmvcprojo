@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
+                <span class="badge bg-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Opis)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ocena>
+@model IEnumerable<Ocena>
 
 @{
     ViewData["Title"] = "Oceny dziecka";
@@ -25,7 +25,7 @@
             <button type="submit" class="btn btn-primary">Filtruj</button>
             @if (Context.Request.Query.ContainsKey("przedmiotId"))
             {
-                <a href="@Url.Action("ChildGrades")" class="btn btn-secondary ml-2">Wyczyść filtr</a>
+                <a href="@Url.Action("ChildGrades")" class="btn btn-secondary ml-2">Wyczysc filtr</a>
             }
         </form>
     </div>
@@ -35,7 +35,7 @@
 {
     <div class="card mb-3">
         <div class="card-header">
-            <h5>Statystyki według przedmiotów</h5>
+            <h5>Statystyki wedlug przedmiot�w</h5>
         </div>
         <div class="card-body">
             <table class="table table-sm">
@@ -43,7 +43,7 @@
                     <tr>
                         <th>Przedmiot</th>
                         <th>Liczba ocen</th>
-                        <th>Średnia</th>
+                        <th>Srednia</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@
                             <td>@stat.Przedmiot.Nazwa</td>
                             <td>@stat.Count</td>
                             <td>
-                                <span class="badge badge-@(stat.Average >= 5.0 ? "success" : stat.Average >= 4.0 ? "info" : stat.Average >= 3.0 ? "warning" : "danger")">
+                                <span class="badge bg-@(stat.Average >= 5.0 ? "success" : stat.Average >= 4.0 ? "info" : stat.Average >= 3.0 ? "warning" : "danger")">
                                     @stat.Average
                                 </span>
                             </td>
@@ -82,7 +82,7 @@
                 <tr>
                     <td>@item.Przedmiot.Nazwa</td>
                     <td>
-                        <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">
+                        <span class="badge bg-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">
                             @item.Wartosc
                         </span>
                     </td>
@@ -98,8 +98,8 @@
         @if (Model.Any())
         {
             <br />
-            <strong>Średnia:</strong> 
-            <span class="badge badge-@(Model.Average(o => o.Wartosc) >= 5.0 ? "success" : Model.Average(o => o.Wartosc) >= 4.0 ? "info" : Model.Average(o => o.Wartosc) >= 3.0 ? "warning" : "danger")">
+            <strong>Srednia:</strong> 
+            <span class="badge bg-@(Model.Average(o => o.Wartosc) >= 5.0 ? "success" : Model.Average(o => o.Wartosc) >= 4.0 ? "info" : Model.Average(o => o.Wartosc) >= 3.0 ? "warning" : "danger")">
                 @Math.Round(Model.Average(o => o.Wartosc), 2)
             </span>
         }
@@ -113,6 +113,6 @@ else
 }
 
 <div class="mt-3">
-    <a href="@Url.Action("Dashboard")" class="btn btn-secondary">Powrót do panelu</a>
+    <a href="@Url.Action("Dashboard")" class="btn btn-secondary">Powr�t do panelu</a>
     <a href="@Url.Action("ChildSubjects")" class="btn btn-info">Przedmioty dziecka</a>
 </div>

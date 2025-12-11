@@ -1,4 +1,4 @@
-﻿@model Dziennik_szkolny.Models.Uczen
+@model Dziennik_szkolny.Models.Uczen
 
 @{
     ViewData["Title"] = "Panel Ucznia";
@@ -27,7 +27,7 @@
     <div class="col-md-4">
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Średnia ocen</h5>
+                <h5 class="card-title">Srednia ocen</h5>
                 <h2 class="@(averageGrade >= 5.0 ? "text-success" : averageGrade >= 4.0 ? "text-info" : averageGrade >= 3.0 ? "text-warning" : "text-danger")">
                     @averageGrade
                 </h2>
@@ -38,7 +38,7 @@
     <div class="col-md-4">
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Liczba przedmiotów</h5>
+                <h5 class="card-title">Liczba przedmiot�w</h5>
                 <h2 class="text-info">@Model.Klasa.Przedmioty.Count</h2>
             </div>
         </div>
@@ -69,7 +69,7 @@
                                 <tr>
                                     <td>@grade.Data.ToString("dd.MM")</td>
                                     <td>@grade.Przedmiot.Nazwa</td>
-                                    <td><span class="badge badge-@(grade.Wartosc >= 5 ? "success" : grade.Wartosc >= 4 ? "info" : grade.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@grade.Wartosc</span></td>
+                                    <td><span class="badge bg-@(grade.Wartosc >= 5 ? "success" : grade.Wartosc >= 4 ? "info" : grade.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@grade.Wartosc</span></td>
                                     <td>@grade.Opis</td>
                                 </tr>
                             }
@@ -88,7 +88,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-info text-white">
-                <h5>Ogłoszenia</h5>
+                <h5>Ogloszenia</h5>
             </div>
             <div class="card-body">
                 @if (announcements.Any())
@@ -105,7 +105,7 @@
                 }
                 else
                 {
-                    <p class="text-muted">Brak ogłoszeń</p>
+                    <p class="text-muted">Brak ogloszen</p>
                 }
             </div>
         </div>

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Ocena>
+@model IEnumerable<Ocena>
 
 @{
-    ViewData["Title"] = "Oceny uczniów";
+    ViewData["Title"] = "Oceny uczni�w";
 }
 
-<h1>Oceny uczniów</h1>
+<h1>Oceny uczni�w</h1>
 
 <div class="row mb-3">
     <div class="col-md-12">
@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-primary">Filtruj</button>
             @if (Context.Request.Query.ContainsKey("klasaId") || Context.Request.Query.ContainsKey("przedmiotId"))
             {
-                <a href="@Url.Action("ViewGrades")" class="btn btn-secondary ml-2">Wyczyść filtry</a>
+                <a href="@Url.Action("ViewGrades")" class="btn btn-secondary ml-2">Wyczysc filtry</a>
             }
         </form>
     </div>
@@ -45,7 +45,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Uczeń</th>
+                <th>Uczen</th>
                 <th>Klasa</th>
                 <th>Przedmiot</th>
                 <th>Ocena</th>
@@ -61,7 +61,7 @@
                     <td>@item.Uczen.Klasa.NazwaKlasy</td>
                     <td>@item.Przedmiot.Nazwa</td>
                     <td>
-                        <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">
+                        <span class="badge bg-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">
                             @item.Wartosc
                         </span>
                     </td>
@@ -75,16 +75,16 @@
     <div class="alert alert-info">
         <strong>Liczba ocen:</strong> @Model.Count()
         <br />
-        <strong>Średnia:</strong> @Math.Round(Model.Average(o => o.Wartosc), 2)
+        <strong>Srednia:</strong> @Math.Round(Model.Average(o => o.Wartosc), 2)
     </div>
 }
 else
 {
     <div class="alert alert-warning">
-        Brak ocen spełniających wybrane kryteria.
+        Brak ocen spelniajacych wybrane kryteria.
     </div>
 }
 
 <div class="mt-3">
-    <a href="@Url.Action("Dashboard")" class="btn btn-secondary">Powrót do panelu</a>
+    <a href="@Url.Action("Dashboard")" class="btn btn-secondary">Powr�t do panelu</a>
 </div>

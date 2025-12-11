@@ -1,4 +1,4 @@
-﻿@model Dziennik_szkolny.Models.Rodzic
+@model Dziennik_szkolny.Models.Rodzic
 
 @{
     ViewData["Title"] = "Panel Rodzica";
@@ -12,7 +12,7 @@
 
 <div class="alert alert-info mt-3">
     <h5>Informacje o dziecku</h5>
-    <p><strong>Imię i nazwisko:</strong> @Model.Uczen.Imie @Model.Uczen.Nazwisko</p>
+    <p><strong>Imie i nazwisko:</strong> @Model.Uczen.Imie @Model.Uczen.Nazwisko</p>
     <p><strong>Klasa:</strong> @Model.Uczen.Klasa.NazwaKlasy</p>
     @if (Model.Uczen.Klasa.Wychowawca != null)
     {
@@ -24,7 +24,7 @@
     <div class="col-md-4">
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Średnia ocen dziecka</h5>
+                <h5 class="card-title">Srednia ocen dziecka</h5>
                 <h2 class="@(averageGrade >= 5.0 ? "text-success" : averageGrade >= 4.0 ? "text-info" : averageGrade >= 3.0 ? "text-warning" : "text-danger")">
                     @averageGrade
                 </h2>
@@ -44,7 +44,7 @@
     <div class="col-md-4">
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Liczba przedmiotów</h5>
+                <h5 class="card-title">Liczba przedmiot�w</h5>
                 <h2 class="text-primary">@Model.Uczen.Klasa.Przedmioty.Count</h2>
             </div>
         </div>
@@ -75,7 +75,7 @@
                                 <tr>
                                     <td>@grade.Data.ToString("dd.MM")</td>
                                     <td>@grade.Przedmiot.Nazwa</td>
-                                    <td><span class="badge badge-@(grade.Wartosc >= 5 ? "success" : grade.Wartosc >= 4 ? "info" : grade.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@grade.Wartosc</span></td>
+                                    <td><span class="badge bg-@(grade.Wartosc >= 5 ? "success" : grade.Wartosc >= 4 ? "info" : grade.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@grade.Wartosc</span></td>
                                     <td>@grade.Opis</td>
                                 </tr>
                             }
@@ -94,7 +94,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-info text-white">
-                <h5>Ogłoszenia</h5>
+                <h5>Ogloszenia</h5>
             </div>
             <div class="card-body">
                 @if (announcements.Any())
@@ -111,7 +111,7 @@
                 }
                 else
                 {
-                    <p class="text-muted">Brak ogłoszeń</p>
+                    <p class="text-muted">Brak ogloszen</p>
                 }
             </div>
         </div>

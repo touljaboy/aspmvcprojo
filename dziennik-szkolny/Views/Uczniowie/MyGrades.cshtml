@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Dziennik_szkolny.Models.Ocena>
+@model IEnumerable<Dziennik_szkolny.Models.Ocena>
 
 @{
     ViewData["Title"] = "Moje oceny";
@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5>Średnie wg przedmiotów</h5>
+                <h5>Srednie wg przedmiot�w</h5>
             </div>
             <div class="card-body">
                 @if (statsBySubject.Count > 0)
@@ -72,7 +72,7 @@
                     <td>@item.Data.ToString("dd.MM.yyyy")</td>
                     <td>@item.Przedmiot.Nazwa</td>
                     <td>
-                        <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
+                        <span class="badge bg-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
                     </td>
                     <td>@item.Opis</td>
                 </tr>
