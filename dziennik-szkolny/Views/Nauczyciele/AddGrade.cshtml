@@ -1,0 +1,61 @@
+﻿@model Dziennik_szkolny.Models.Ocena
+
+@{
+    ViewData["Title"] = "Dodaj ocenę";
+}
+
+<h1>Dodaj ocenę</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddGrade">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="UczenId" class="control-label">Uczeń</label>
+                <select asp-for="UczenId" class="form-control" asp-items="ViewBag.UczenId"></select>
+                <span asp-validation-for="UczenId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PrzedmiotId" class="control-label">Przedmiot</label>
+                <select asp-for="PrzedmiotId" class="form-control" asp-items="ViewBag.PrzedmiotId"></select>
+                <span asp-validation-for="PrzedmiotId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Wartosc" class="control-label">Ocena</label>
+                <select asp-for="Wartosc" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <span asp-validation-for="Wartosc" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Opis" class="control-label">Opis</label>
+                <input asp-for="Opis" class="form-control" />
+                <span asp-validation-for="Opis" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Data" class="control-label">Data</label>
+                <input asp-for="Data" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-primary" />
+                <a asp-action="Dashboard" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

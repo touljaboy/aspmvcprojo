@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Dziennik_szkolny.Models;
 
 namespace dziennik_szkolny.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UczniowieController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -49,8 +51,8 @@ namespace dziennik_szkolny.Controllers
         // GET: Uczniowie/Create
         public IActionResult Create()
         {
-            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "Id");
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id");
+            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "NazwaKlasy");
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa");
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,KlasaId,KontoId")] Uczen uczen)
+        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,Email,Telefon,KlasaId,KontoId")] Uczen uczen)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +69,8 @@ namespace dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "Id", uczen.KlasaId);
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", uczen.KontoId);
+            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "NazwaKlasy", uczen.KlasaId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", uczen.KontoId);
             return View(uczen);
         }
 
@@ -85,8 +87,8 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "Id", uczen.KlasaId);
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", uczen.KontoId);
+            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "NazwaKlasy", uczen.KlasaId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", uczen.KontoId);
             return View(uczen);
         }
 
@@ -95,7 +97,7 @@ namespace dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,KlasaId,KontoId")] Uczen uczen)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,Email,Telefon,KlasaId,KontoId")] Uczen uczen)
         {
             if (id != uczen.Id)
             {
@@ -122,8 +124,8 @@ namespace dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "Id", uczen.KlasaId);
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", uczen.KontoId);
+            ViewData["KlasaId"] = new SelectList(_context.Klasy, "Id", "NazwaKlasy", uczen.KlasaId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", uczen.KontoId);
             return View(uczen);
         }
 

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Ocena>
+
+@{
+    ViewData["Title"] = "Oceny dziecka";
+}
+
+<h1>Oceny - @ViewBag.ChildName</h1>
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <form method="get" class="form-inline">
+            <div class="form-group mr-3">
+                <label for="przedmiotId" class="mr-2">Przedmiot:</label>
+                <select name="przedmiotId" id="przedmiotId" class="form-control" onchange="this.form.submit()">
+                    <option value="">-- Wszystkie przedmioty --</option>
+                    @foreach (var przedmiot in ViewBag.Przedmioty as List<Przedmiot>)
+                    {
+                        <option value="@przedmiot.Id" selected="@(Context.Request.Query["przedmiotId"] == przedmiot.Id.ToString() ? "selected" : null)">
+                            @przedmiot.Nazwa
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filtruj</button>
+            @if (Context.Request.Query.ContainsKey("przedmiotId"))
+            {
+                <a href="@Url.Action("ChildGrades")" class="btn btn-secondary ml-2">Wyczyść filtr</a>
+            }
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.StatsBySubject != null && ((IEnumerable<dynamic>)ViewBag.StatsBySubject).Any())
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5>Statystyki według przedmiotów</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Przedmiot</th>
+                        <th>Liczba ocen</th>
+                        <th>Średnia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var stat in (IEnumerable<dynamic>)ViewBag.StatsBySubject)
+                    {
+                        <tr>
+                            <td>@stat.Przedmiot.Nazwa</td>
+                            <td>@stat.Count</td>
+                            <td>
+                                <span class="badge badge-@(stat.Average >= 5.0 ? "success" : stat.Average >= 4.0 ? "info" : stat.Average >= 3.0 ? "warning" : "danger")">
+                                    @stat.Average
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Przedmiot</th>
+                <th>Ocena</th>
+                <th>Opis</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Przedmiot.Nazwa</td>
+                    <td>
+                        <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">
+                            @item.Wartosc
+                        </span>
+                    </td>
+                    <td>@item.Opis</td>
+                    <td>@item.Data.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <div class="alert alert-info">
+        <strong>Liczba ocen:</strong> @Model.Count()
+        @if (Model.Any())
+        {
+            <br />
+            <strong>Średnia:</strong> 
+            <span class="badge badge-@(Model.Average(o => o.Wartosc) >= 5.0 ? "success" : Model.Average(o => o.Wartosc) >= 4.0 ? "info" : Model.Average(o => o.Wartosc) >= 3.0 ? "warning" : "danger")">
+                @Math.Round(Model.Average(o => o.Wartosc), 2)
+            </span>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Brak ocen dla wybranego przedmiotu.
+    </div>
+}
+
+<div class="mt-3">
+    <a href="@Url.Action("Dashboard")" class="btn btn-secondary">Powrót do panelu</a>
+    <a href="@Url.Action("ChildSubjects")" class="btn btn-info">Przedmioty dziecka</a>
+</div>

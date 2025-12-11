@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Przedmiot>
+
+@{
+    ViewData["Title"] = "Moje przedmioty";
+}
+
+<h1>Moje przedmioty</h1>
+
+<p>Lista przedmiotów w Twojej klasie:</p>
+
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Przedmiot</th>
+                <th>Nauczyciel</th>
+                <th>Treść kształcenia</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><strong>@item.Nazwa</strong></td>
+                    <td>
+                        @if (item.Nauczyciel != null)
+                        {
+                            <span>@item.Nauczyciel.Imie @item.Nauczyciel.Nazwisko</span>
+                            @if (!string.IsNullOrEmpty(item.Nauczyciel.Email))
+                            {
+                                <br />
+                                <small class="text-muted">
+                                    <i class="fas fa-envelope"></i> @item.Nauczyciel.Email
+                                </small>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted">Nie przypisano</span>
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.TrescKsztalcenia))
+                        {
+                            <small>@item.TrescKsztalcenia</small>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Brak opisu</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("MyGrades", new { przedmiotId = item.Id })" class="btn btn-sm btn-primary">
+                            Zobacz oceny
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">
+        Brak przypisanych przedmiotów do Twojej klasy.
+    </div>
+}
+
+<div class="mt-3">
+    <a href="@Url.Action("Dashboard")" class="btn btn-secondary">Powrót do panelu</a>
+</div>

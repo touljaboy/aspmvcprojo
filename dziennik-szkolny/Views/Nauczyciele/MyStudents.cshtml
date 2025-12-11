@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Dziennik_szkolny.Models.Uczen>
+
+@{
+    ViewData["Title"] = "Moi uczniowie";
+}
+
+<h1>Moi uczniowie</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imię i nazwisko</th>
+            <th>Klasa</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.Imie @student.Nazwisko</td>
+                    <td>@student.Klasa.NazwaKlasy</td>
+                    <td>@student.Email</td>
+                    <td>@student.Telefon</td>
+                    <td>
+                        <a asp-action="AddGrade" asp-route-studentId="@student.Id" class="btn btn-sm btn-primary">Dodaj ocenę</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">Brak uczniów</td>
+            </tr>
+        }
+    </tbody>
+</table>

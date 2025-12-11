@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Dziennik_szkolny.Models;
 
 namespace dziennik_szkolny.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class NauczycieleController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -49,17 +51,18 @@ namespace dziennik_szkolny.Controllers
         // GET: Nauczyciele/Create
         public IActionResult Create()
         {
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id");
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id");
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa");
+            var nauczyciele = _context.Nauczyciele
+                .Select(n => new { n.Id, Display = n.Imie + " " + n.Nazwisko })
+                .ToList();
+            ViewData["PrzelozonyId"] = new SelectList(nauczyciele, "Id", "Display");
             return View();
         }
 
         // POST: Nauczyciele/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,CzyWychowawca,KontoId,PrzelozonyId")] Nauczyciel nauczyciel)
+        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,Email,Telefon,CzyWychowawca,KontoId,PrzelozonyId")] Nauczyciel nauczyciel)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +70,11 @@ namespace dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", nauczyciel.KontoId);
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id", nauczyciel.PrzelozonyId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", nauczyciel.KontoId);
+            var nauczyciele = _context.Nauczyciele
+                .Select(n => new { n.Id, Display = n.Imie + " " + n.Nazwisko })
+                .ToList();
+            ViewData["PrzelozonyId"] = new SelectList(nauczyciele, "Id", "Display", nauczyciel.PrzelozonyId);
             return View(nauczyciel);
         }
 
@@ -85,17 +91,19 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", nauczyciel.KontoId);
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id", nauczyciel.PrzelozonyId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", nauczyciel.KontoId);
+            var nauczyciele = _context.Nauczyciele
+                .Where(n => n.Id != id)
+                .Select(n => new { n.Id, Display = n.Imie + " " + n.Nazwisko })
+                .ToList();
+            ViewData["PrzelozonyId"] = new SelectList(nauczyciele, "Id", "Display", nauczyciel.PrzelozonyId);
             return View(nauczyciel);
         }
 
         // POST: Nauczyciele/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,CzyWychowawca,KontoId,PrzelozonyId")] Nauczyciel nauczyciel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,Email,Telefon,CzyWychowawca,KontoId,PrzelozonyId")] Nauczyciel nauczyciel)
         {
             if (id != nauczyciel.Id)
             {
@@ -122,8 +130,11 @@ namespace dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", nauczyciel.KontoId);
-            ViewData["PrzelozonyId"] = new SelectList(_context.Nauczyciele, "Id", "Id", nauczyciel.PrzelozonyId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", nauczyciel.KontoId);
+            var nauczyciele = _context.Nauczyciele
+                .Select(n => new { n.Id, Display = n.Imie + " " + n.Nazwisko })
+                .ToList();
+            ViewData["PrzelozonyId"] = new SelectList(nauczyciele, "Id", "Display", nauczyciel.PrzelozonyId);
             return View(nauczyciel);
         }
 

@@ -1,0 +1,113 @@
+﻿@model Dziennik_szkolny.Models.Uczen
+
+@{
+    ViewData["Title"] = "Panel Ucznia";
+    var recentGrades = (List<Dziennik_szkolny.Models.Ocena>)ViewBag.RecentGrades;
+    var averageGrade = (double)ViewBag.AverageGrade;
+    var announcements = (List<Dziennik_szkolny.Models.Ogloszenie>)ViewBag.Announcements;
+}
+
+<h1>Panel Ucznia</h1>
+<h3>Witaj, @Model.Imie @Model.Nazwisko</h3>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Moja klasa</h5>
+                <h2 class="text-primary">@Model.Klasa.NazwaKlasy</h2>
+                @if (Model.Klasa.Wychowawca != null)
+                {
+                    <p class="text-muted">Wychowawca: @Model.Klasa.Wychowawca.Imie @Model.Klasa.Wychowawca.Nazwisko</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Średnia ocen</h5>
+                <h2 class="@(averageGrade >= 5.0 ? "text-success" : averageGrade >= 4.0 ? "text-info" : averageGrade >= 3.0 ? "text-warning" : "text-danger")">
+                    @averageGrade
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Liczba przedmiotów</h5>
+                <h2 class="text-info">@Model.Klasa.Przedmioty.Count</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Ostatnie oceny</h5>
+            </div>
+            <div class="card-body">
+                @if (recentGrades.Any())
+                {
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Przedmiot</th>
+                                <th>Ocena</th>
+                                <th>Opis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var grade in recentGrades)
+                            {
+                                <tr>
+                                    <td>@grade.Data.ToString("dd.MM")</td>
+                                    <td>@grade.Przedmiot.Nazwa</td>
+                                    <td><span class="badge badge-@(grade.Wartosc >= 5 ? "success" : grade.Wartosc >= 4 ? "info" : grade.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@grade.Wartosc</span></td>
+                                    <td>@grade.Opis</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a asp-action="MyGrades" class="btn btn-sm btn-primary">Zobacz wszystkie oceny</a>
+                }
+                else
+                {
+                    <p class="text-muted">Brak ocen</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5>Ogłoszenia</h5>
+            </div>
+            <div class="card-body">
+                @if (announcements.Any())
+                {
+                    @foreach (var announcement in announcements)
+                    {
+                        <div class="mb-3">
+                            <h6>@announcement.Tytul</h6>
+                            <p class="mb-1">@announcement.Tresc</p>
+                            <small class="text-muted">@announcement.Data.ToString("dd.MM.yyyy")</small>
+                        </div>
+                        <hr />
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">Brak ogłoszeń</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

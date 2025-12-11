@@ -1,0 +1,56 @@
+﻿@model Dziennik_szkolny.Models.Rodzic
+
+@{
+    ViewData["Title"] = "Edytuj Profil";
+}
+
+<h1>Edytuj Profil</h1>
+
+<div class="mb-4">
+    <h4>@Model.Imie @Model.Nazwisko</h4>
+    <p class="text-muted">Edytuj swoje dane kontaktowe</p>
+</div>
+
+<div class="alert alert-info" role="alert">
+    <strong>Uwaga:</strong> Możesz edytować tylko swoje dane kontaktowe (Email i Telefon). Zmiany innych danych wymagają kontaktu z administratorem.
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="EditProfile" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Imię</label>
+                <p class="form-control-plaintext">@Model.Imie</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nazwisko</label>
+                <p class="form-control-plaintext">@Model.Nazwisko</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Telefon" class="control-label"></label>
+                <input asp-for="Telefon" class="form-control" />
+                <span asp-validation-for="Telefon" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Zapisz zmiany" class="btn btn-primary" />
+                <a asp-action="MyProfile" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

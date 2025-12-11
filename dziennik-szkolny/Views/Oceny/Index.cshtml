@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Wartosc)
+                <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Opis)
@@ -43,10 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Uczen.Id)
+                @(item.Uczen != null ? $"{item.Uczen.Imie} {item.Uczen.Nazwisko}" : "-")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Przedmiot.Id)
+                @(item.Przedmiot?.Nazwa ?? "-")
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -7,5 +7,4 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # To magiczna linijka. Łączy Twój folder db_data z folderem w kontenerze.
       - ./db_data:/app/db_data

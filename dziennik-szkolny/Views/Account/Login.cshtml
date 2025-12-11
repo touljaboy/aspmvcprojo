@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Logowanie";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Dziennik Szkolny</h2>
+                <h5 class="text-center mb-4">Logowanie</h5>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form method="post" asp-action="Login" asp-controller="Account">
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    
+                    <div class="form-group mb-3">
+                        <label for="username">Nazwa użytkownika</label>
+                        <input type="text" class="form-control" id="username" name="username" required autofocus />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password">Hasło</label>
+                        <input type="password" class="form-control" id="password" name="password" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Zaloguj się</button>
+                </form>
+
+                <hr class="my-4" />
+
+                <div class="text-muted small">
+                    <p class="mb-1"><strong>Demo konta:</strong></p>
+                    <p class="mb-0">Admin: admin / admin</p>
+                    <p class="mb-0">Nauczyciel: teacher / teacher</p>
+                    <p class="mb-0">Uczeń: student / student</p>
+                    <p class="mb-0">Rodzic: parent / parent</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

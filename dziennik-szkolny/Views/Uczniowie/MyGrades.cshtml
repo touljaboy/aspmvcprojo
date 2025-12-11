@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Dziennik_szkolny.Models.Ocena>
+
+@{
+    ViewData["Title"] = "Moje oceny";
+    var przedmioty = (List<Dziennik_szkolny.Models.Przedmiot>)ViewBag.Przedmioty;
+    var statsBySubject = (dynamic)ViewBag.StatsBySubject;
+}
+
+<h1>Moje oceny</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Średnie wg przedmiotów</h5>
+            </div>
+            <div class="card-body">
+                @if (statsBySubject.Count > 0)
+                {
+                    <div class="row">
+                        @foreach (var stat in statsBySubject)
+                        {
+                            <div class="col-md-3 mb-3">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h6>@stat.Przedmiot.Nazwa</h6>
+                                        <h3 class="@(stat.Average >= 4.5 ? "text-success" : stat.Average >= 3.0 ? "text-warning" : "text-danger")">
+                                            @stat.Average
+                                        </h3>
+                                        <small class="text-muted">@stat.Count ocen</small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Brak ocen</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label>Filtruj po przedmiocie:</label>
+    <select class="form-control" onchange="window.location.href='?przedmiotId=' + this.value">
+        <option value="">Wszystkie przedmioty</option>
+        @foreach (var przedmiot in przedmioty)
+        {
+            <option value="@przedmiot.Id">@przedmiot.Nazwa</option>
+        }
+    </select>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Przedmiot</th>
+            <th>Ocena</th>
+            <th>Opis</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Data.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Przedmiot.Nazwa</td>
+                    <td>
+                        <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
+                    </td>
+                    <td>@item.Opis</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center text-muted">Brak ocen</td>
+            </tr>
+        }
+    </tbody>
+</table>

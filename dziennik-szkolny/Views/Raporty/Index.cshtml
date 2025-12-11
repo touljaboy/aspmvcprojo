@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Dziennik_szkolny.Models.Ocena>
+
+@{
+    ViewData["Title"] = "Raport ocen";
+}
+
+<h1>Raport ocen</h1>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="uczenId">Uczeń</label>
+                <select name="uczenId" id="uczenId" class="form-control">
+                    <option value="">Wszyscy uczniowie</option>
+                    @foreach (var item in (SelectList)ViewData["UczenId"])
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="przedmiotId">Przedmiot</label>
+                <select name="przedmiotId" id="przedmiotId" class="form-control">
+                    <option value="">Wszystkie przedmioty</option>
+                    @foreach (var item in (SelectList)ViewData["PrzedmiotId"])
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="dataOd">Data od</label>
+                <input type="date" name="dataOd" id="dataOd" class="form-control" value="@Context.Request.Query["dataOd"]" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="dataDo">Data do</label>
+                <input type="date" name="dataDo" id="dataDo" class="form-control" value="@Context.Request.Query["dataDo"]" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Filtruj</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (ViewData["SredniaOcen"] != null)
+{
+    <div class="alert alert-info">
+        <strong>Statystyki:</strong> 
+        Liczba ocen: @ViewData["LiczbaOcen"] | 
+        Średnia ocen: @ViewData["SredniaOcen"]
+    </div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Uczeń</th>
+            <th>Klasa</th>
+            <th>Przedmiot</th>
+            <th>Ocena</th>
+            <th>Opis</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Data.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Uczen.Imie @item.Uczen.Nazwisko</td>
+                    <td>@item.Uczen.Klasa.NazwaKlasy</td>
+                    <td>@item.Przedmiot.Nazwa</td>
+                    <td>
+                        <span class="badge badge-@(item.Wartosc >= 5 ? "success" : item.Wartosc >= 4 ? "info" : item.Wartosc >= 3 ? "warning" : "danger")" style="font-size: 1.1em;">@item.Wartosc</span>
+                    </td>
+                    <td>@item.Opis</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center text-muted">Brak ocen spełniających kryteria</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="mt-3">
+    <a asp-action="Uczniowie" class="btn btn-secondary">Raport uczniów</a>
+    <a asp-action="Przedmioty" class="btn btn-secondary">Raport przedmiotów</a>
+</div>

@@ -49,17 +49,19 @@ namespace dziennik_szkolny.Controllers
         // GET: Rodzice/Create
         public IActionResult Create()
         {
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id");
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id");
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa");
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display");
             return View();
         }
 
         // POST: Rodzice/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,UczenId,KontoId")] Rodzic rodzic)
+        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,Email,Telefon,UczenId,KontoId")] Rodzic rodzic)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +69,12 @@ namespace dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", rodzic.KontoId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", rodzic.UczenId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", rodzic.KontoId);
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display", rodzic.UczenId);
             return View(rodzic);
         }
 
@@ -85,17 +91,19 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", rodzic.KontoId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", rodzic.UczenId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", rodzic.KontoId);
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display", rodzic.UczenId);
             return View(rodzic);
         }
 
         // POST: Rodzice/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,UczenId,KontoId")] Rodzic rodzic)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,Email,Telefon,UczenId,KontoId")] Rodzic rodzic)
         {
             if (id != rodzic.Id)
             {
@@ -122,8 +130,12 @@ namespace dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Id", rodzic.KontoId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", rodzic.UczenId);
+            ViewData["KontoId"] = new SelectList(_context.Konto, "Id", "Nazwa", rodzic.KontoId);
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display", rodzic.UczenId);
             return View(rodzic);
         }
 

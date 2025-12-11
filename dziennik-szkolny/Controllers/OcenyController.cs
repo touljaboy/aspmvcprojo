@@ -49,14 +49,16 @@ namespace dziennik_szkolny.Controllers
         // GET: Oceny/Create
         public IActionResult Create()
         {
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id");
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id");
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa");
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display");
             return View();
         }
 
         // POST: Oceny/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Wartosc,Opis,Data,UczenId,PrzedmiotId")] Ocena ocena)
@@ -67,8 +69,12 @@ namespace dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa", ocena.PrzedmiotId);
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display", ocena.UczenId);
             return View(ocena);
         }
 
@@ -85,14 +91,16 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
-            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Id", ocena.PrzedmiotId);
-            ViewData["UczenId"] = new SelectList(_context.Uczniowie, "Id", "Id", ocena.UczenId);
+            ViewData["PrzedmiotId"] = new SelectList(_context.Przedmioty, "Id", "Nazwa", ocena.PrzedmiotId);
+            var uczniowie = _context.Uczniowie
+                .Include(u => u.Klasa)
+                .Select(u => new { u.Id, Display = u.Imie + " " + u.Nazwisko + " (" + u.Klasa.NazwaKlasy + ")" })
+                .ToList();
+            ViewData["UczenId"] = new SelectList(uczniowie, "Id", "Display", ocena.UczenId);
             return View(ocena);
         }
 
         // POST: Oceny/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Wartosc,Opis,Data,UczenId,PrzedmiotId")] Ocena ocena)

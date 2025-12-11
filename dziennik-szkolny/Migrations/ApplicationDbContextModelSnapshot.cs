@@ -69,6 +69,9 @@ namespace Dziennik_szkolny.Migrations
                     b.Property<bool>("CzyWychowawca")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Imie")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -82,6 +85,9 @@ namespace Dziennik_szkolny.Migrations
 
                     b.Property<int?>("PrzelozonyId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Telefon")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -151,11 +157,19 @@ namespace Dziennik_szkolny.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("NauczycielId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Nazwa")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("TrescKsztalcenia")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("NauczycielId");
 
                     b.ToTable("Przedmioty");
                 });
@@ -166,6 +180,9 @@ namespace Dziennik_szkolny.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Imie")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -175,6 +192,9 @@ namespace Dziennik_szkolny.Migrations
 
                     b.Property<string>("Nazwisko")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Telefon")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UczenId")
@@ -195,6 +215,9 @@ namespace Dziennik_szkolny.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Imie")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -207,6 +230,9 @@ namespace Dziennik_szkolny.Migrations
 
                     b.Property<string>("Nazwisko")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Telefon")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -280,6 +306,16 @@ namespace Dziennik_szkolny.Migrations
                     b.Navigation("Uczen");
                 });
 
+            modelBuilder.Entity("Dziennik_szkolny.Models.Przedmiot", b =>
+                {
+                    b.HasOne("Dziennik_szkolny.Models.Nauczyciel", "Nauczyciel")
+                        .WithMany("Przedmioty")
+                        .HasForeignKey("NauczycielId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Nauczyciel");
+                });
+
             modelBuilder.Entity("Dziennik_szkolny.Models.Rodzic", b =>
                 {
                     b.HasOne("Dziennik_szkolny.Models.Konto", "Konto")
@@ -289,7 +325,7 @@ namespace Dziennik_szkolny.Migrations
                         .IsRequired();
 
                     b.HasOne("Dziennik_szkolny.Models.Uczen", "Uczen")
-                        .WithMany()
+                        .WithMany("Rodzice")
                         .HasForeignKey("UczenId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -338,9 +374,16 @@ namespace Dziennik_szkolny.Migrations
                     b.Navigation("Uczniowie");
                 });
 
+            modelBuilder.Entity("Dziennik_szkolny.Models.Nauczyciel", b =>
+                {
+                    b.Navigation("Przedmioty");
+                });
+
             modelBuilder.Entity("Dziennik_szkolny.Models.Uczen", b =>
                 {
                     b.Navigation("Oceny");
+
+                    b.Navigation("Rodzice");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Dziennik_szkolny.Models;
 
 namespace dziennik_szkolny.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PrzedmiotyController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,6 +48,11 @@ namespace dziennik_szkolny.Controllers
         // GET: Przedmioty/Create
         public IActionResult Create()
         {
+            ViewData["NauczycielId"] = new SelectList(_context.Nauczyciele.Select(n => new 
+            { 
+                Id = n.Id, 
+                Display = n.Imie + " " + n.Nazwisko 
+            }), "Id", "Display");
             return View();
         }
 
@@ -54,7 +61,7 @@ namespace dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nazwa")] Przedmiot przedmiot)
+        public async Task<IActionResult> Create([Bind("Id,Nazwa,TrescKsztalcenia,NauczycielId")] Przedmiot przedmiot)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +69,11 @@ namespace dziennik_szkolny.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NauczycielId"] = new SelectList(_context.Nauczyciele.Select(n => new 
+            { 
+                Id = n.Id, 
+                Display = n.Imie + " " + n.Nazwisko 
+            }), "Id", "Display", przedmiot.NauczycielId);
             return View(przedmiot);
         }
 
@@ -78,6 +90,11 @@ namespace dziennik_szkolny.Controllers
             {
                 return NotFound();
             }
+            ViewData["NauczycielId"] = new SelectList(_context.Nauczyciele.Select(n => new 
+            { 
+                Id = n.Id, 
+                Display = n.Imie + " " + n.Nazwisko 
+            }), "Id", "Display", przedmiot.NauczycielId);
             return View(przedmiot);
         }
 
@@ -86,7 +103,7 @@ namespace dziennik_szkolny.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nazwa")] Przedmiot przedmiot)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nazwa,TrescKsztalcenia,NauczycielId")] Przedmiot przedmiot)
         {
             if (id != przedmiot.Id)
             {
@@ -113,6 +130,11 @@ namespace dziennik_szkolny.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NauczycielId"] = new SelectList(_context.Nauczyciele.Select(n => new 
+            { 
+                Id = n.Id, 
+                Display = n.Imie + " " + n.Nazwisko 
+            }), "Id", "Display", przedmiot.NauczycielId);
             return View(przedmiot);
         }
 

@@ -1,0 +1,88 @@
+﻿@model Dziennik_szkolny.Models.Nauczyciel
+
+@{
+    ViewData["Title"] = "Panel Nauczyciela";
+    var supervisedClasses = (List<Dziennik_szkolny.Models.Klasa>)ViewBag.SupervisedClasses;
+    var announcements = (List<Dziennik_szkolny.Models.Ogloszenie>)ViewBag.Announcements;
+}
+
+<h1>Panel Nauczyciela</h1>
+<h3>Witaj, @Model.Imie @Model.Nazwisko</h3>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Moje przedmioty</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Przedmioty.Any())
+                {
+                    <ul class="list-group">
+                        @foreach (var przedmiot in Model.Przedmioty)
+                        {
+                            <li class="list-group-item">
+                                <strong>@przedmiot.Nazwa</strong>
+                                <br />
+                                <small class="text-muted">
+                                    Klasy: @string.Join(", ", przedmiot.Klasy.Select(k => k.NazwaKlasy))
+                                </small>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">Nie przypisano żadnych przedmiotów</p>
+                }
+            </div>
+        </div>
+
+        @if (supervisedClasses.Any())
+        {
+            <div class="card mt-3">
+                <div class="card-header bg-success text-white">
+                    <h5>Wychowawstwo klas</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach (var klasa in supervisedClasses)
+                        {
+                            <li class="list-group-item">
+                                <strong>@klasa.NazwaKlasy</strong>
+                                <br />
+                                <small class="text-muted">Liczba uczniów: @klasa.Uczniowie.Count</small>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5>Ostatnie ogłoszenia</h5>
+            </div>
+            <div class="card-body">
+                @if (announcements.Any())
+                {
+                    @foreach (var announcement in announcements)
+                    {
+                        <div class="mb-3">
+                            <h6>@announcement.Tytul</h6>
+                            <p class="mb-1">@announcement.Tresc</p>
+                            <small class="text-muted">@announcement.Data.ToString("dd.MM.yyyy HH:mm")</small>
+                        </div>
+                        <hr />
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">Brak ogłoszeń</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
