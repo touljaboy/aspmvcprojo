@@ -69,9 +69,7 @@ dziennik-szkolny/
 ```
 
 ### 2.3. Baza Danych
-
-wzór bazy dostępny w pliku DB_ss.png
-
+![[/screenshots/DB_ss 1.png]]
 ## 3. URUCHOMIENIE
 
 Po inicjalizacji bazy danych dostępne są następujące konta testowe:
@@ -84,8 +82,8 @@ Po inicjalizacji bazy danych dostępne są następujące konta testowe:
 | Uczeń | jkowalski | haslo123 | Jan Kowalski (uczeń) |
 | Uczeń | anowak | haslo123 | Anna Nowak (uczennica) |
 | Rodzic | kowalscy | haslo123 | Rodzic Jana Kowalskiego |
-
----
+Ekran logowania:
+![[/screenshots/Screenshot 2025-12-19 at 14.22.10.png|400]]
 
 ## 4. INSTRUKCJA UŻYTKOWNIKA
 
@@ -98,6 +96,7 @@ Po inicjalizacji bazy danych dostępne są następujące konta testowe:
 Po poprawnym zalogowaniu zostaniesz przekierowany do panelu odpowiedniego dla Twojej roli.
 
 ### 4.2. Panel Administratora
+![[/screenshots/Screenshot 2025-12-19 at 14.21.25.png]]
 
 Administrator ma pełny dostęp do funkcji systemu związanych z API bazy danych.
 
@@ -116,9 +115,10 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 - **Ogłoszenia** - tworzenie ogłoszeń
 
 #### 4.2.2. Zarządzanie Uczniami
-
+Panel zarządzania uczniami:
+![[/screenshots/Screenshot 2025-12-19 at 14.40.00.png]]
 **Dodawanie nowego ucznia:**
-
+![[/screenshots/Screenshot 2025-12-19 at 14.38.39.png|300]]
 1. Przejdź do **Uczniowie** → **Utwórz nowy**
 2. Wypełnij formularz:
    - Imię (wymagane)
@@ -143,9 +143,10 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 
 
 #### 4.2.3. Zarządzanie Nauczycielami
-
+Panel zarządzania nauczycielami:
+![[/screenshots/Screenshot 2025-12-19 at 14.40.51.png]]
 **Dodawanie nauczyciela:**
-
+![[/screenshots/Screenshot 2025-12-19 at 14.41.26.png|300]]
 1. Przejdź do **Nauczyciele** → **Utwórz nowy**
 2. Wypełnij formularz:
    - Imię (wymagane)
@@ -167,9 +168,10 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 - Akcje (Edytuj, Szczegóły, Usuń)
 
 #### 4.2.4. Zarządzanie Klasami
-
+Panel zarządzania klasami:
+![[/screenshots/Screenshot 2025-12-19 at 14.42.11.png]]
 **Dodawanie klasy:**
-
+![[/screenshots/Screenshot 2025-12-19 at 14.42.33.png|300]]
 1. Przejdź do **Klasy** → **Utwórz nowy**
 2. Wprowadź nazwę klasy (np. "1A", "2B")
 3. Wybierz wychowawcę z listy nauczycieli
@@ -182,7 +184,8 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 3. Wybierz klasy, do których ma być przypisany przedmiot
 
 #### 4.2.5. Zarządzanie Przedmiotami
-
+Panel zarządzania przedmiotami:
+![[/screenshots/Screenshot 2025-12-19 at 14.43.51.png]]
 **Dodawanie przedmiotu:**
 
 1. Przejdź do **Przedmioty** → **Utwórz nowy**
@@ -193,9 +196,10 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 3. Kliknij **Utwórz**
 
 #### 4.2.6. Zarządzanie Ocenami
-
+Panel zarządzania ocenami:
+![[/screenshots/Screenshot 2025-12-19 at 14.44.49.png]]
 **Dodawanie oceny:**
-
+![[/screenshots/Screenshot 2025-12-19 at 14.45.14.png|300]]
 1. Przejdź do **Oceny** → **Utwórz nowy**
 2. Wypełnij formularz:
    - Wartość (1-6)
@@ -212,9 +216,10 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 - **Czerwony** (<3) - oceny niedostateczne
 
 #### 4.2.7. Zarządzanie Kontami
-
+Panel zarządzania kontami:
+![[/screenshots/Screenshot 2025-12-19 at 14.46.20.png]]
 **Dodawanie konta:**
-
+![[/screenshots/Screenshot 2025-12-19 at 14.46.47.png|300]]
 1. Przejdź do **Konta** → **Utwórz nowy**
 2. Wypełnij formularz:
    - Nazwa użytkownika (login)
@@ -230,9 +235,10 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 
 
 #### 4.2.8. Ogłoszenia
-
+Panel zarządzania ogłoszeniami:
+![[/screenshots/Screenshot 2025-12-19 at 15.00.22.png]]
 **Tworzenie ogłoszenia:**
-
+![[/screenshots/Screenshot 2025-12-19 at 15.00.40.png|300]]
 1. Przejdź do **Ogłoszenia** → **Utwórz nowy**
 2. Wypełnij formularz:
    - Tytuł
@@ -243,7 +249,7 @@ Po zalogowaniu administrator widzi menu nawigacyjne z następującymi opcjami:
 Ogłoszenia są widoczne na dashboardach wszystkich użytkowników.
 
 ### 4.3. Panel Nauczyciela
-
+![[/screenshots/Screenshot 2025-12-19 at 14.22.36.png]]
 Po zalogowaniu nauczyciel ma dostęp do:
 
 #### 4.3.1. Dashboard Nauczyciela
@@ -264,7 +270,7 @@ Dashboard wyświetla:
 - **Mój Profil** - edycja danych osobowych
 
 #### 4.3.3. Przeglądanie Ocen Uczniów
-
+![[/screenshots/Screenshot 2025-12-19 at 15.02.09.png]]
 1. Przejdź do **Moi Uczniowie**
 2. Kliknij **Zobacz oceny** przy wybranym uczniu
 3. Zobaczysz wszystkie oceny ucznia z kolorowaniem
@@ -276,7 +282,7 @@ Dashboard wyświetla:
 - Średnia ogólna ucznia
 
 #### 4.3.4. Raporty
-
+![[/screenshots/Screenshot 2025-12-19 at 15.02.40.png]]
 Nauczyciel ma dostęp do trzech rodzajów raportów:
 
 **1. Raport ogólny:**
@@ -300,7 +306,7 @@ Nauczyciel ma dostęp do trzech rodzajów raportów:
   - Średnia ocen (kolorowana)
 
 #### 4.3.5. Mój Profil (Nauczyciel)
-
+![[/screenshots/Screenshot 2025-12-19 at 15.03.43.png|400]]
 1. Kliknij **Mój Profil** w menu
 2. Zobacz swoje dane:
    - Imię i nazwisko
@@ -317,7 +323,7 @@ Nauczyciel ma dostęp do trzech rodzajów raportów:
 ### 4.4. Panel Ucznia
 
 #### 4.4.1. Dashboard Ucznia
-
+![[/screenshots/Screenshot 2025-12-19 at 14.23.05 1.png]]
 Dashboard wyświetla:
 - **Informacje osobiste**:
   - Imię i nazwisko
@@ -336,7 +342,7 @@ Dashboard wyświetla:
 #### 4.4.3. Moje Oceny
 
 Widok **Moje Oceny** zawiera:
-
+![[/screenshots/Screenshot 2025-12-19 at 15.04.56.png]]
 1. **Statystyki przedmiotowe:**
    - Nazwa przedmiotu
    - Liczba ocen
@@ -348,8 +354,6 @@ Widok **Moje Oceny** zawiera:
    - Ocena (kolorowana)
    - Opis
 
-3. **Średnia ogólna** - na dole strony 
-
 **Kolorowanie ocen:**
 - Zielony (≥5.0)
 - Niebieski (≥4.0)
@@ -357,7 +361,7 @@ Widok **Moje Oceny** zawiera:
 - Czerwony (<3.0)
 
 #### 4.4.4. Mój Profil (Uczeń)
-
+![[/screenshots/Screenshot 2025-12-19 at 15.06.00.png|400]]
 1. Kliknij **Mój Profil**
 2. Zobacz swoje dane
 3. Kliknij **Edytuj Profil** aby zmienić email i telefon
@@ -375,7 +379,7 @@ Dashboard wyświetla:
 - **Ostatnie ogłoszenia**
 
 #### 4.5.2. Menu Rodzica
-
+![[/screenshots/Screenshot 2025-12-19 at 14.23.26.png]]
 - **Dashboard** - strona główna
 - **Oceny Dziecka** - wszystkie oceny dziecka
 - **Mój Profil** - edycja danych osobowych
